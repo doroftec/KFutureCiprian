@@ -1,0 +1,249 @@
+<p-tabView>
+<p-tabPanel header="PrimeNG">
+        <button pButton type="button" label="Add New Client" (click)="addNewClient()"></button>
+       <p-dataGrid [value]="clients" [columns]="4" [paginator]="true" [rows]="8">
+            <header>
+                List of Clients
+            </header>
+        <template let-client>
+            <div style="padding:3px">
+                <p-panel [style]="{'text-align':'center'}">
+                    <header>{{client.firstName + ' ' + client.lastName}}</header>
+                    <div><b><i>From:</i></b> {{client.country}}</div>
+                    <div><b><i>Email:</i></b> {{client.email}}</div>
+                    <hr class="ui-widget-content" style="border-top:0">
+                    <button pButton type="button" label="Details" (click)="selectClient(client)"></button>
+                    <button pButton type="button" label="Edit" (click)="updateClientBtn(client)"></button>
+                    <button pButton type="button" label="Delete" (click)="checkDeleteDialog(client)" style="background-color: #ca1414;border: #ececec;"></button>
+                </p-panel>
+            </div>
+        </template>
+        </p-dataGrid>
+        <p-dialog header="Client Details" [(visible)]="displayDetailsDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400" (onAfterHide)="onDialogHide()">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedClient" style="font-size:16px;text-align:center;padding:20px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Id: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.id}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">First Name: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.firstName}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Last Name: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.lastName}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Date Birth: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.dateBirth | date: 'MM/dd/yyyy'}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Email: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.email}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Gender: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.gender}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Country: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.country}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Address: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.address}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Phone: </div>
+                    <div class="ui-grid-col-8">{{selectedClient.phone}}</div>
+                </div>
+            </div>
+        </p-dialog>
+
+        <p-dialog header="Update Client Details" [(visible)]="displayUpdateDialog" [responsive]="true" showEffect="fade" [modal]="true" width="900" (onAfterHide)="onDialogHide()">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedClient" style="font-size:16px;text-align:left;padding:20px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Id: </div>
+                    <div class="ui-grid-col-8"><input [disabled]="true" type="number" pInputText [(ngModel)]="selectedClient.id" placeholder="Id" required/></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgIdFlag" class="error-msg">{{errorMsgId}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">First Name: </div>
+                    <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.firstName" placeholder="First Name" required/></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgFirstNameFlag" class="error-msg">{{errorMsgFirstName}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Last Name: </div>
+                    <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.lastName" placeholder="Last Name" required/></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgLastNameFlag" class="error-msg">{{errorMsgLastName}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Date Birth: </div>
+                    <div class="ui-grid-col-8">        
+                        <p-calendar [(ngModel)]="dateBirth" showAnim="slideDown" [showIcon]="true" placeholder="Date Birth" required></p-calendar>
+                    </div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgDateBirthFlag" class="error-msg">{{errorMsgDateBirth}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Email: </div>
+                    <div class="ui-grid-col-8"><p-inputMask mask="*{1,20}@*{1,20}.*{1,3}" [(ngModel)]="selectedClient.email" placeholder="Email"></p-inputMask></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgEmailFlag" class="error-msg">{{errorMsgEmail}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Gender: </div>
+                    <div class="ui-grid-col-8"><p-dropdown [options]="genders" [(ngModel)]="selectedClient.gender" [style]="{'width':'60px'}"></p-dropdown></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgGenderFlag" class="error-msg">{{errorMsgGender}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Country: </div>
+                    <div class="ui-grid-col-8"><p-dropdown [options]="countries" [(ngModel)]="selectedClient.country" [style]="{'width':'150px'}"></p-dropdown></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgCountryFlag" class="error-msg">{{errorMsgCountry}}</div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Address: </div>
+                    <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.address" placeholder="Address"/></div>
+                    <div class="ui-grid-col-10"></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Phone: </div>
+                    <div class="ui-grid-col-8"><p-inputMask mask="99-99999999" [(ngModel)]="selectedClient.phone" placeholder="40-075843867"></p-inputMask></div>
+                    <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgPhoneFlag" class="error-msg">{{errorMsgPhone}}</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                        <button type="submit" class="btn btn-primary" (click)="updateClientInDb()">Submit</button>
+                </div>
+            </div>
+        </p-dialog>
+
+        <p-dialog header="Delete client" [(visible)]="checkDeleteDialogFlag" [responsive]="true" showEffect="fade" [modal]="true" width="350" (onAfterHide)="onDialogHide()">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedClient" style="font-size:16px;text-align:center;padding:20px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-8">Do you want to delete <b style="color: red;">{{selectedClient.firstName}} {{selectedClient.lastName}}</b> client?</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <button pButton type="button" label="Yes" (click)="checkDeleteDialogYes(selectedClient)" style="background-color: #ca1414;border: #ececec;"></button>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <button pButton type="button" label="No" (click)="checkDeleteDialogNo(selectedClient)" style="background-color: #ca1414;border: #ececec;"></button>
+                    </div>
+                </div>
+            </div>
+        </p-dialog>
+
+        <p-dialog header="New client" [(visible)]="displayAddClientDialog" [responsive]="true" showEffect="fade" [modal]="true" width="900" (onAfterHide)="onDialogHide()">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedClient" style="font-size:16px;text-align:left;padding:20px">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Id: </div>
+                        <div class="ui-grid-col-8"><input type="number" pInputText [(ngModel)]="selectedClient.id" placeholder="Id" required/></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgIdFlag" class="error-msg">{{errorMsgId}}</div>
+                        </div>
+                    </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">First Name: </div>
+                        <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.firstName" placeholder="First Name" required/></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgFirstNameFlag" class="error-msg">{{errorMsgFirstName}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Last Name: </div>
+                        <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.lastName" placeholder="Last Name" required/></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgLastNameFlag" class="error-msg">{{errorMsgLastName}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Date Birth: </div>
+                        <div class="ui-grid-col-8">        
+                            <p-calendar [(ngModel)]="selectedClient.dateBirth" showAnim="slideDown" [showIcon]="true" placeholder="Date Birth" required></p-calendar>
+                        </div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgDateBirthFlag" class="error-msg">{{errorMsgDateBirth}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Email: </div>
+                        <div class="ui-grid-col-8"><p-inputMask mask="*{1,20}@*{1,20}.*{1,3}" [(ngModel)]="selectedClient.email"  placeholder="Email"></p-inputMask></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgEmailFlag" class="error-msg">{{errorMsgEmail}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Gender: </div>
+                        <div class="ui-grid-col-8"><p-dropdown [options]="genders" [(ngModel)]="selectedClient.gender"  [style]="{'width':'200px'}"></p-dropdown></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgGenderFlag" class="error-msg">{{errorMsgGender}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Country: </div>
+                        <div class="ui-grid-col-8"><p-dropdown [options]="countries" [(ngModel)]="selectedClient.country" [style]="{'width':'200px'}"></p-dropdown></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgCountryFlag" class="error-msg">{{errorMsgCountry}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">Address: </div>
+                    <div class="ui-grid-col-8"><input type="text" pInputText [(ngModel)]="selectedClient.address" placeholder="Address"/></div>
+                    <div class="ui-grid-col-10"></div>
+                </div>
+                <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">Phone: </div>
+                        <div class="ui-grid-col-8"><p-inputMask mask="99-999999999" [(ngModel)]="selectedClient.phone" placeholder="40-075843867"></p-inputMask></div>
+                        <div class="ui-grid-col-10">
+                            <div [hidden]="!errorMsgPhoneFlag" class="error-msg">{{errorMsgPhone}}</div>
+                        </div>
+                </div>
+                <div class="ui-grid-row text-center">
+                        <button style="width: 380px;" pButton type="submit" label="Add New Client" (click)="saveClientInDb()"></button>
+                </div>
+            </div>
+        </p-dialog>
+    </p-tabPanel>
+      <p-tabPanel header="Dragula">
+            <table id="firstTable">
+            <thead>
+                <tr>
+                <th>List of clients from DB</th>
+                <th>List of dummy clients</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    <div [dragula]="'second-bag'">
+                    <div *ngFor='let client of clients'>
+                        {{client.id}}.{{client.firstName}} {{client.lastName}}
+                    </div>
+                    </div>
+                    </td>
+                    <td>
+                    <div [dragula]="'second-bag'">
+                    <div *ngFor='let clientDummy of clientsDummy'>
+                        {{clientDummy.label}}
+                    </div>
+                    </div>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+    </p-tabPanel>
+</p-tabView>

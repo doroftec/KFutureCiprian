@@ -1,0 +1,24 @@
+#firstTable table, #firstTable td, #firstTable th {
+    border: 1px solid black;
+}
+
+#firstTable table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#firstTable th {
+    text-align: left;
+}
+
+.ng-dirty.ng-invalid{
+    border-bottom-width: 3px;
+}
+
+.error-msg {
+    border: 1px solid;
+    margin: 10px 0px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #D8000C;
+}

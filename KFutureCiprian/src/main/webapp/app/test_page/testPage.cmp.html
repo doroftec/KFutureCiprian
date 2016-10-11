@@ -1,0 +1,52 @@
+<h1>List of products</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Id</th>
+                    <th>Product Name</th>
+                    <th>Release Date</th>
+                    <th>Price</th>
+                    <th>Details</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products" [class.selected]="product === productWithDetails">
+                    <td [innerText]="product.productId"></td>
+                    <td [innerText]="product.productName"></td>
+                    <td [innerText]="product.releaseDate"></td>
+                    <td [innerText]="product.price"></td>
+                    <td><button (click)="viewProductDetail(product)" >View details</button></td>
+                </tr>
+            </tbody>
+        </table>
+<div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
+
+<span></span>
+<div [hidden]="hiddenFlag">
+    <div *ngIf="productWithDetails">
+      <h3>Product Id: {{productWithDetails.productId}}, Product Name: {{productWithDetails.productName}}, Release Date: {{productWithDetails.releaseDate}}, Price: {{productWithDetails.price}}</h3>
+      <br>
+    </div>
+</div>
+<div>
+    <h1>Add New Product Form</h1>
+        <div class="form-group">
+          <label for="productId">ProductId</label>
+          <input type="number" id="productId" class="form-control" required [value]="product.productId" (input)="product.productId=$event.target.value" placeholder="Product Id">
+      </div>      
+      <div class="form-group">
+        <label for="productName">ProductName</label>
+        <input type="text" id="productName" class="form-control" required [value]="product.productName" (input)="product.productName=$event.target.value" placeholder="Product Name">
+      </div>
+      <div class="form-group">
+        <label for="releaseDate">Release Date</label>
+        <input type="text" id="releaseDate" class="form-control" required [value]="product.releaseDate" (input)="product.releaseDate=$event.target.value" placeholder="Release Date">
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" class="form-control" required [value]="product.price" (input)="product.price=$event.target.value" placeholder="Price">
+      </div>
+      <button type="submit" (click)="onSubmit(product)" class="btn btn-default">Submit</button>
+      <button type="submit" (click)="resetForm()" class="btn btn-default">Reset</button>
+</div>

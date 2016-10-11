@@ -1,0 +1,89 @@
+<div class="box-full_size overflow-auto" #box>
+	<div id="cmp-report_management" class="app_content-container-cmp height-100percent container">
+		<!--<div *ngIf="isLoading" class="cmp-global_loader">
+            <img src="app/assets/images/loader.gif" class="cmp-global_loader-img" alt="Loading...">
+        </div>-->
+		<p-growl [value]="messages"></p-growl>
+		<!-- View content -->
+		<h2 class="view-header">{{'njamb.fe.reportManagement.mainHeader' | translate}} <img src="app/assets/images/loader.gif" style="width: 28px;" *ngIf="bLoadingState"></h2>
+		<div class="col-md-4 padding_sides-0 report-list">
+			<h3 class="view-sub_header">
+				Reports
+				<button type="button" class="btn btn-success" (click)="loadReportsRest()" [disabled]="bLoadingState"><span class="glyphicon glyphicon-refresh"></span></button>
+			</h3>
+			<div *ngIf="!reports">
+				<p>Loading...</p>
+			</div>
+			<div *ngIf="reports">
+				<p-dataScroller [value]="reports" [rows]="10" [inline]="true" [scrollHeight]="'400px'">
+					<template let-report>
+						<table class="table item" [ngClass]="{'item-active': selectedReport==report}" (click)="selectReport(report.id)">
+							<tr>
+								<td class="text-left col-name">
+									<div>
+										{{report.name}} <small>{{report.description || ''}}</small>
+									</div>
+								</td>
+								<td *ngIf="this.selectedType == 'all'"  [ngClass]="{'sync' : this.selectedType == 'sync'}" class="text-right">
+                                    {{report.type  == 'sync' ? 'Sync' : 'Async'}}
+                                </td>
+							</tr>
+						</table>
+
+					</template>
+				</p-dataScroller>
+			</div>
+			<div class="container-fluid text-center" *ngIf="reports">
+				<p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onTypeChange()"></p-selectButton>
+			</div>
+		</div>
+
+		<div id="report_management-form" *ngIf="reports && selectedReport && form && formLoaded" class="col-md-8">
+			<h3 class="view-sub_header">Report Form <img src="app/assets/images/loader.gif" style="width: 23px;" *ngIf="bPrintReportLoading || isLoading"></h3>
+			<div class="form-box clearfix">
+				<h4 class="form-header padding_sides-15">{{selectedReport.name}} <span class="report_type">{{selectedReport.type == 'sync' ? 'Synchronous' : 'Asynchronous'}}</span></h4>
+				<form [formGroup]="form" (ngSubmit)="submit(form)">
+					<div *ngFor="let row of selectedReportParams" class="clearfix">
+						<div *ngFor="let column of row; let columnIndex = index " class="col-md-4">
+							<div class="form-group" [ngClass]="{'has-error': !form.controls[column.name].valid}">
+								<label [attr.for]="column.name">{{column.name | capital}}:</label>
+								<input class="form-control" [formControlName]="column.name" [type]="transformFieldType(column.type)" [placeholder]="column.name">
+								<control-messages [control]="form.controls[column.name]"></control-messages>
+							</div>
+						</div>
+						<hr class="form-hr">
+					</div>
+
+					<div class="form-group clearfix col-md-4" [ngClass]="{'has-error': !form.controls['format'].valid}">
+						<label for="format">Format</label>
+						<select formControlName="format" class="form-control" required>
+                                <option value="">Select format</option>
+                                <option value="pdf">PDF</option>
+                                <option value="xls">Excel</option>
+                            </select>
+						<control-messages [control]="form.controls['format']"></control-messages>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group" *ngIf="selectedReport.type=='async'" [ngClass]="{'has-error': !form.controls['deadline'].valid}">
+							<label for="deadline">Deadline:</label>
+							<div>
+								<p-calendar formControlName="deadline" minDate="0d" dateFormat="yy-mm-dd" timeFormat="HH:mm:ss"></p-calendar>
+								<control-messages [control]="form.controls['deadline']"></control-messages>
+							</div>
+						</div>
+					</div>
+					<div class="container-fluid row clear-both">
+						<div class="col-md-4 col-md-offset-8 text-right">
+							<input *ngIf="selectedReport.type=='sync'" type="button" class="btn btn-primary" value="Download" [disabled]="!form.valid"
+								(click)="printReport(false, selectedReport.name)" />
+							<input *ngIf="selectedReport.type=='sync'" type="button" class="btn btn-primary" value="Open" [disabled]="!form.valid" (click)="printReport(true, selectedReport.name)"
+							/>
+							<input *ngIf="selectedReport.type=='async'" type="button" class="btn btn-primary" value="Book" [disabled]="!form.valid" (click)="addBooking()"
+							/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
