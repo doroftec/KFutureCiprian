@@ -12,11 +12,13 @@ var core_1 = require('@angular/core');
 var fileUploadTest_routes_1 = require('../file_upload_test/fileUploadTest.routes');
 var utility_module_1 = require('../shared/modules/utility.module');
 var fileUploadTest_cmp_1 = require('./fileUploadTest.cmp');
-var ng2_file_upload_1 = require('../ng2-file-upload');
+var ng2_file_upload_1 = require('ng2-file-upload');
 var fileUploadTest_services_1 = require('./fileUploadTest.services');
+var http_1 = require('@angular/http');
 var core_2 = require('angular2-cookie/core');
 var primeng_1 = require('primeng/primeng');
 var primeng_2 = require('primeng/primeng');
+var dt_httpInterceptor_1 = require('../dtShared/dt.httpInterceptor');
 var FileUploadTestModule = (function () {
     function FileUploadTestModule() {
     }
@@ -41,9 +43,16 @@ var FileUploadTestModule = (function () {
             declarations: [
                 fileUploadTest_cmp_1.FileUploadTestCmp,
                 ng2_file_upload_1.FileSelectDirective,
-                ng2_file_upload_1.FileDropDirective
+                ng2_file_upload_1.FileDropDirective,
             ],
-            providers: [fileUploadTest_services_1.FileUploadTestService, core_2.CookieService],
+            providers: [fileUploadTest_services_1.FileUploadTestService, core_2.CookieService,
+                {
+                    provide: http_1.Http,
+                    useFactory: function (backend, defaultOptions, cookieService) {
+                        return new dt_httpInterceptor_1.DTHttpInterceptor(backend, defaultOptions, cookieService);
+                    },
+                    deps: [http_1.XHRBackend, http_1.RequestOptions, core_2.CookieService]
+                }],
         }), 
         __metadata('design:paramtypes', [])
     ], FileUploadTestModule);

@@ -8,7 +8,7 @@ import { ReportManagementCmp } from '../report_management/reportManagement.cmp';
 import { ReportManagementService } from '../report_management/reportManagement.service';
 
 import { ValidationService } from '../shared/services/validation.service';
-import { ControlMessages } from '../shared/controlMessage.cmp';
+import { ControlMessages } from '../shared/controlMessages.cmp';
 
 import { CapitalPipe } from '../shared/pipes/capital.pipe';
 

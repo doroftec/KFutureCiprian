@@ -16,16 +16,16 @@ var FileUploadTestService = (function () {
     function FileUploadTestService(http) {
         this.http = http;
         this.header = new http_2.Headers();
-        this.url = '/KFutureInternCiprian/rest/uploadedFiles';
-        this.url2 = '/KFutureInternCiprian/rest/downloadPDF';
+        this.url = '/KFutureCiprian/rest/uploadedFiles';
+        this.url2 = '/KFutureCiprian/rest/downloadPDF';
     }
     FileUploadTestService.prototype.getUploadedBlobsFiles = function () {
-        return this.http.request(this.url)
+        return this.http.get(this.url)
             .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     FileUploadTestService.prototype.downloadPDF = function (id) {
-        return this.http.get("/KFutureInternCiprian/rest/downloadPDF/" + id, {
+        return this.http.get("/KFutureCiprian/rest/downloadPDF/" + id, {
             responseType: http_1.ResponseContentType.Blob }).map(function (response) { return new Blob([response.blob()], { type: 'application/pdf' }); });
     };
     FileUploadTestService.prototype.handleError = function (error) {

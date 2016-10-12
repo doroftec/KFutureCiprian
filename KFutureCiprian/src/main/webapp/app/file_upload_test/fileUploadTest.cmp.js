@@ -9,12 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var ng2_file_upload_1 = require('../ng2-file-upload');
+var ng2_file_upload_1 = require('ng2-file-upload');
 var fileUploadTest_services_1 = require('./fileUploadTest.services');
 require('rxjs/Rx');
 var core_2 = require('angular2-cookie/core');
 var URL2 = 'https://evening-anchorage-3159.herokuapp.com/api/';
-var URL = '/KFutureInternCiprian/rest/upload';
+var URL = '/KFutureCiprian/rest/upload';
 var FileUploadTestCmp = (function () {
     function FileUploadTestCmp(_fileUploadTestService, _cookieService) {
         this._fileUploadTestService = _fileUploadTestService;

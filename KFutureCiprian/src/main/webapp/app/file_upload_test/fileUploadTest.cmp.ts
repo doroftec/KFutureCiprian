@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgClass, NgStyle} from '@angular/common';
-import { FileUploader} from '../ng2-file-upload';
+import { FileUploader} from 'ng2-file-upload';
 import { FileUploadTestService } from './fileUploadTest.services';
 import { FileUploadTest } from './fileUploadTest.model';
 import 'rxjs/Rx';
@@ -12,7 +12,7 @@ declare let saveAs: any;
 
 const URL2 = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
-const URL = '/KFutureInternCiprian/rest/upload';
+const URL = '/KFutureCiprian/rest/upload';
 
 @Component({
     templateUrl: 'app/file_upload_test/fileUploadTest.cmp.html',

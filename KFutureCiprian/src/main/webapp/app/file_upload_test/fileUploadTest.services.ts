@@ -12,17 +12,17 @@ export class FileUploadTestService {
 
     public header = new Headers();
 
-    private url = '/KFutureInternCiprian/rest/uploadedFiles';
-    private url2 = '/KFutureInternCiprian/rest/downloadPDF';
+    private url = '/KFutureCiprian/rest/uploadedFiles';
+    private url2 = '/KFutureCiprian/rest/downloadPDF';
 
     getUploadedBlobsFiles(): Observable<FileUploadTest[]>{
-        return this.http.request(this.url)
+        return this.http.get(this.url)
                     .map(res => res.json())
                     .catch(this.handleError);
     }
 
     downloadPDF(id: number):any{
-      return this.http.get(`/KFutureInternCiprian/rest/downloadPDF/${id}`, {
+      return this.http.get(`/KFutureCiprian/rest/downloadPDF/${id}`, {
         responseType: ResponseContentType.Blob}).map(response =>
         {return new Blob([response.blob()], { type: 'application/pdf' })});
     }
