@@ -10,14 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var http_2 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 var FileUploadTestService = (function () {
     function FileUploadTestService(http) {
         this.http = http;
-        this.header = new http_2.Headers();
-        this.url = '/KFutureCiprian/rest/uploadedFiles';
-        this.url2 = '/KFutureCiprian/rest/downloadPDF';
+        this.url = 'rest/uploadedFiles';
     }
     FileUploadTestService.prototype.getUploadedBlobsFiles = function () {
         return this.http.get(this.url)
@@ -25,7 +22,7 @@ var FileUploadTestService = (function () {
             .catch(this.handleError);
     };
     FileUploadTestService.prototype.downloadPDF = function (id) {
-        return this.http.get("/KFutureCiprian/rest/downloadPDF/" + id, {
+        return this.http.get("rest/downloadPDF/" + id, {
             responseType: http_1.ResponseContentType.Blob }).map(function (response) { return new Blob([response.blob()], { type: 'application/pdf' }); });
     };
     FileUploadTestService.prototype.handleError = function (error) {

@@ -14,7 +14,7 @@ var fileUploadTest_services_1 = require('./fileUploadTest.services');
 require('rxjs/Rx');
 var core_2 = require('angular2-cookie/core');
 var URL2 = 'https://evening-anchorage-3159.herokuapp.com/api/';
-var URL = '/KFutureCiprian/rest/upload';
+var URL = 'rest/upload';
 var FileUploadTestCmp = (function () {
     function FileUploadTestCmp(_fileUploadTestService, _cookieService) {
         this._fileUploadTestService = _fileUploadTestService;

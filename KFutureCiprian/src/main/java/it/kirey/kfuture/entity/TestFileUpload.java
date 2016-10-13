@@ -5,15 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "TEST_FILE_UPLOAD")
 public class TestFileUpload {
 
 	private int id;
+
 	private byte[] fileBlob;
+	
 	private String fileName;
 	
 	@Id
@@ -31,6 +33,7 @@ public class TestFileUpload {
 	public byte[] getFileBlob() {
 		return fileBlob;
 	}
+	
 	public void setFileBlob(byte[] fileBlob) {
 		this.fileBlob = fileBlob;
 	}

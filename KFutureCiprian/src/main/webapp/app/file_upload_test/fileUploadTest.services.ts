@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestMethod, ResponseContentType } from '@angular/http';
-import { Headers, RequestOptions } from '@angular/http';
+import { RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { FileUploadTest } from './fileUploadTest.model';
 
@@ -10,10 +10,7 @@ export class FileUploadTestService {
 
     constructor(private http: Http) { }
 
-    public header = new Headers();
-
-    private url = '/KFutureCiprian/rest/uploadedFiles';
-    private url2 = '/KFutureCiprian/rest/downloadPDF';
+    private url = 'rest/uploadedFiles';
 
     getUploadedBlobsFiles(): Observable<FileUploadTest[]>{
         return this.http.get(this.url)
@@ -22,7 +19,7 @@ export class FileUploadTestService {
     }
 
     downloadPDF(id: number):any{
-      return this.http.get(`/KFutureCiprian/rest/downloadPDF/${id}`, {
+      return this.http.get(`rest/downloadPDF/${id}`, {
         responseType: ResponseContentType.Blob}).map(response =>
         {return new Blob([response.blob()], { type: 'application/pdf' })});
     }

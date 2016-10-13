@@ -12,7 +12,7 @@ declare let saveAs: any;
 
 const URL2 = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
-const URL = '/KFutureCiprian/rest/upload';
+const URL = 'rest/upload';
 
 @Component({
     templateUrl: 'app/file_upload_test/fileUploadTest.cmp.html',

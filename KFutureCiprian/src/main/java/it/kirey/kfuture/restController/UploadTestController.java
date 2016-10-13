@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.kirey.kfuture.dao.ITestFileUploadDao;
+import it.kirey.kfuture.dto.UploadTestFilesDto;
 import it.kirey.kfuture.entity.TestFileUpload;
 
 @RestController
@@ -51,9 +53,9 @@ public class UploadTestController {
     }
 	
 	@RequestMapping(value = "/uploadedFiles", method = RequestMethod.GET,headers="Accept=application/json")  
-	 public List<TestFileUpload> getFiles()  
+	 public List<UploadTestFilesDto> getFiles()  
 	 {  
-	  List<TestFileUpload> listOfTestFiles = testFileUploadDao.getAllFileBlobs();
+		List<UploadTestFilesDto> listOfTestFiles = testFileUploadDao.getAllFilesNames();
 	  
 	  return listOfTestFiles;
 	 }
