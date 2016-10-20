@@ -39,10 +39,10 @@
                 <li>
                 	<a routerLink="test_page" routerLinkActive="active">Test</a>
                 </li>
-                <li>
+                <li *ngIf="isMickoUser">
                 	<a routerLink="clients_test_page" routerLinkActive="active">Clients Test</a>
                 </li>
-				<li>
+				<li *ngIf="isMickoUser">
                 	<a routerLink="file_upload" routerLinkActive="active">Upload Test</a>
                 </li>
                 <li *ngIf="_appService.getBTokenExpired()">

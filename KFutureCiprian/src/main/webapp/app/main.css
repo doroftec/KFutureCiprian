@@ -5,6 +5,10 @@
   outline: none;
   background: #fff !important; }
 
+.nav > li > a.inactive {
+  display: none;
+}
+
 .navbar-nav .alert {
   margin-bottom: 0; }
 .navbar-nav .cmp-global_loader-img {
@@ -12,6 +16,10 @@
   right: 11px;
   top: 6px;
   width: 33px; }
+
+  [hidden] {
+    display: none;
+}
 
 #app_content-container {
   height: 100%;

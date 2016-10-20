@@ -17,6 +17,9 @@ var nav_module_1 = require('./common/nav.module');
 var app_routes_1 = require('./app.routes');
 var utility_module_1 = require('./shared/modules/utility.module');
 var app_service_1 = require('./shared/services/app.service');
+var login_service_1 = require("./login/login.service");
+var loginGuard_1 = require("./login/loginGuard");
+var login_module_1 = require('./login/login.module');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,7 +29,8 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 nav_module_1.NavModule,
                 app_routes_1.ROUTING,
-                utility_module_1.UtilityModule
+                utility_module_1.UtilityModule,
+                login_module_1.LoginModule
             ],
             declarations: [
                 app_cmp_1.AppCmp
@@ -34,6 +38,8 @@ var AppModule = (function () {
             bootstrap: [app_cmp_1.AppCmp],
             providers: [
                 app_service_1.AppService,
+                login_service_1.LoginService,
+                loginGuard_1.LoginGuard,
                 {
                     provide: common_1.LocationStrategy,
                     useClass: common_1.HashLocationStrategy

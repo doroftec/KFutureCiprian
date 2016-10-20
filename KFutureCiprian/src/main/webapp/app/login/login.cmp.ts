@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, EventEmitter,Output } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 
 import { CookieService } from 'angular2-cookie/core';
@@ -11,6 +11,7 @@ import { DTService } from '../dtShared/dt.service';
 import { DTViewCmpIf } from '../dtShared/dt.viewcmpIF';
 
 import { AppService } from '../shared/services/app.service';
+import { NavChangeService } from '../common/navchange.service';
 
 declare var $: JQueryStatic;
 
@@ -32,6 +33,7 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
     aCssList: any[];
     selectedCompany: string;
 
+    isMickoOnline: boolean;
     private errorMessage: string;
 
     /*--------- Constructor --------*/
@@ -39,7 +41,8 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
         private _loginService: LoginService,
         private _cookieService: CookieService,
         private _dtService: DTService,
-        private _appService: AppService) { }
+        private _appService: AppService,
+        private _navchangeService: NavChangeService) { }
 
     /*--------- App logic --------*/
     /**
@@ -66,6 +69,14 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
     getUserRest(): any {
         this._dtService.setRestMessageContent('LoginCmp', 'getUserRest()');
         this._loginService.getUser().toPromise().then(result => {
+
+            if(result.username == 'micko'){
+                this._navchangeService.navchange.emit(true);
+            }
+
+            //set username as cookie
+            this._cookieService.put('username', result.username)
+
             let tempIterator = 0;
             for (let company in result.companies) {
                 let tempOption = {
@@ -121,6 +132,7 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
         this.bLoginState = false;
         this.bLoginSuccessful = false;
         this.bLoadingState = false;
+        this.isMickoOnline = false;
 
         this.aCssList = [];
         this.selectedCompany = '';

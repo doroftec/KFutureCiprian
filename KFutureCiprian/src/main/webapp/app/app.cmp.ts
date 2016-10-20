@@ -9,6 +9,6 @@ export class AppCmp {
 
     promenioTrans(){
         console.log('PROMENA');
-    }
+    }    
 
 }

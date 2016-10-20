@@ -15,13 +15,15 @@ var userLogin_model_1 = require('../login/userLogin.model');
 var login_service_1 = require('../login/login.service');
 var dt_service_1 = require('../dtShared/dt.service');
 var app_service_1 = require('../shared/services/app.service');
+var navchange_service_1 = require('../common/navchange.service');
 var LoginCmp = (function () {
     /*--------- Constructor --------*/
-    function LoginCmp(_loginService, _cookieService, _dtService, _appService) {
+    function LoginCmp(_loginService, _cookieService, _dtService, _appService, _navchangeService) {
         this._loginService = _loginService;
         this._cookieService = _cookieService;
         this._dtService = _dtService;
         this._appService = _appService;
+        this._navchangeService = _navchangeService;
         this.loginModel = new userLogin_model_1.UserLogin('micko', 'micko');
     }
     /*--------- App logic --------*/
@@ -48,6 +50,11 @@ var LoginCmp = (function () {
         var _this = this;
         this._dtService.setRestMessageContent('LoginCmp', 'getUserRest()');
         this._loginService.getUser().toPromise().then(function (result) {
+            if (result.username == 'micko') {
+                _this._navchangeService.navchange.emit(true);
+            }
+            //set username as cookie
+            _this._cookieService.put('username', result.username);
             var tempIterator = 0;
             for (var company in result.companies) {
                 var tempOption = {
@@ -93,6 +100,7 @@ var LoginCmp = (function () {
         this.bLoginState = false;
         this.bLoginSuccessful = false;
         this.bLoadingState = false;
+        this.isMickoOnline = false;
         this.aCssList = [];
         this.selectedCompany = '';
         // Construct methods
@@ -109,7 +117,7 @@ var LoginCmp = (function () {
             // styleUrls: ['app/login/login.cmp.css'],
             encapsulation: core_1.ViewEncapsulation.None
         }), 
-        __metadata('design:paramtypes', [login_service_1.LoginService, core_2.CookieService, dt_service_1.DTService, app_service_1.AppService])
+        __metadata('design:paramtypes', [login_service_1.LoginService, core_2.CookieService, dt_service_1.DTService, app_service_1.AppService, navchange_service_1.NavChangeService])
     ], LoginCmp);
     return LoginCmp;
 }());

@@ -12,12 +12,19 @@ import { UtilityModule } from './shared/modules/utility.module';
 
 import { AppService } from './shared/services/app.service';
 
+import {LoginService} from "./login/login.service";
+
+import {LoginGuard} from "./login/loginGuard";
+
+import { LoginModule } from './login/login.module';
+
 @NgModule({
     imports: [
         BrowserModule,
         NavModule,
         ROUTING,
-        UtilityModule
+        UtilityModule,
+        LoginModule
     ],
     declarations: [
         AppCmp
@@ -25,6 +32,8 @@ import { AppService } from './shared/services/app.service';
     bootstrap: [AppCmp],
     providers: [
         AppService,
+        LoginService,
+        LoginGuard,
         {
             provide: LocationStrategy,
             useClass: HashLocationStrategy

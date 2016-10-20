@@ -13,14 +13,21 @@ var router_1 = require('@angular/router');
 var ng2_translate_1 = require('ng2-translate/ng2-translate');
 var app_service_1 = require('../shared/services/app.service');
 var dt_service_1 = require('../dtShared/dt.service');
+var core_2 = require('angular2-cookie/core');
+var login_cmp_1 = require('../login/login.cmp');
+var navchange_service_1 = require('./navchange.service');
 var NavCmp = (function () {
     /*--------- Constructor --------*/
-    function NavCmp(_translateService, _appService, _dtService, _router) {
+    function NavCmp(_translateService, _appService, _dtService, _router, _cookieService, _navchangeService) {
+        var _this = this;
         this._translateService = _translateService;
         this._appService = _appService;
         this._dtService = _dtService;
         this._router = _router;
+        this._cookieService = _cookieService;
+        this._navchangeService = _navchangeService;
         this.onTranslationChange = new core_1.EventEmitter();
+        this._navchangeService.navchange.subscribe(function (status) { _this.isMickoUser = status; console.log('Status is:' + status); });
     }
     /*--------- App logic --------*/
     NavCmp.prototype.matchDefaultLanguage = function (lang) {
@@ -31,6 +38,9 @@ var NavCmp = (function () {
     };
     NavCmp.prototype.ngOnInit = function () {
         var _this = this;
+        var username = 'micko';
+        if (this._cookieService.get('username') == username) { }
+        this.isMickoUser = false;
         this._translateService.use(this._appService.getStoredLanguage());
         this._appService.navLanguageChanged.subscribe(function (lang) {
             _this._appService.changeLangTranslate(_this._translateService, lang);
@@ -46,8 +56,9 @@ var NavCmp = (function () {
             moduleId: module.id,
             selector: 'navigation-menu',
             templateUrl: 'nav.cmp.html',
+            entryComponents: [login_cmp_1.LoginCmp]
         }), 
-        __metadata('design:paramtypes', [ng2_translate_1.TranslateService, app_service_1.AppService, dt_service_1.DTService, router_1.Router])
+        __metadata('design:paramtypes', [ng2_translate_1.TranslateService, app_service_1.AppService, dt_service_1.DTService, router_1.Router, core_2.CookieService, navchange_service_1.NavChangeService])
     ], NavCmp);
     return NavCmp;
 }());
