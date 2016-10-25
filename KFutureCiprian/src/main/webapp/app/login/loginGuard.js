@@ -9,12 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var login_service_1 = require("./login.service");
 var core_2 = require('angular2-cookie/core');
-var app_service_1 = require('../shared/services/app.service');
 var LoginGuard = (function () {
-    function LoginGuard(loginService, _cookieService) {
-        this.loginService = loginService;
+    function LoginGuard(_cookieService) {
         this._cookieService = _cookieService;
         this.username = 'micko';
     }
@@ -23,10 +20,7 @@ var LoginGuard = (function () {
     };
     LoginGuard.prototype.checkIfLoggedIn = function () {
         var username;
-        if (app_service_1.AppService.bTokenExpired && this._cookieService.get('username') != null) {
-            this._cookieService.remove('username');
-        }
-        else {
+        if (this._cookieService.get('username') != null) {
             username = this._cookieService.get('username');
         }
         if (username == null) {
@@ -45,7 +39,7 @@ var LoginGuard = (function () {
     };
     LoginGuard = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [login_service_1.LoginService, core_2.CookieService])
+        __metadata('design:paramtypes', [core_2.CookieService])
     ], LoginGuard);
     return LoginGuard;
 }());

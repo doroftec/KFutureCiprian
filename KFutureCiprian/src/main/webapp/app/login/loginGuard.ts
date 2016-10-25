@@ -1,6 +1,5 @@
 import {CanActivate} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {LoginService} from "./login.service";
 import { Inject } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
 import { AppService } from '../shared/services/app.service';
@@ -11,7 +10,7 @@ export class LoginGuard implements CanActivate{
       username: string = 'micko';
       isMickoOn: boolean;
 
-      constructor(private loginService: LoginService, private _cookieService: CookieService) { 
+      constructor(private _cookieService: CookieService) { 
       }
 
       canActivate() {
@@ -20,9 +19,7 @@ export class LoginGuard implements CanActivate{
 
       checkIfLoggedIn(): boolean{
       let username;
-      if(AppService.bTokenExpired && this._cookieService.get('username') != null){
-          this._cookieService.remove('username');
-      }else{
+      if(this._cookieService.get('username') != null){
           username = this._cookieService.get('username');
       }
 

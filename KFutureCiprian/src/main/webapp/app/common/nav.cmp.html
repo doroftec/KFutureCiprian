@@ -16,24 +16,24 @@
                 <li>
                     <a routerLink="login" routerLinkActive="active">{{('njamb.fe.navigation.login' | translate) || 'Login'}}</a>
                 </li>
-                <li>
+                <li *ngIf="checkRoute('products')">
                     <a routerLink="products" routerLinkActive="active">{{'njamb.fe.navigation.products' | translate}}</a>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown" *ngIf="checkRoute('Reports')">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a routerLink="report_management" routerLinkActive="active">{{'njamb.fe.navigation.reportManagement' | translate}}</a></li>
-                        <li><a routerLink="admin/create_report" routerLinkActive="active">{{'njamb.fe.navigation.adminCreateReport' | translate}}</a></li>
+                        <li *ngIf="checkRoute('report_management')"><a routerLink="report_management" routerLinkActive="active">{{'njamb.fe.navigation.reportManagement' | translate}}</a></li>
+                        <li *ngIf="checkRoute('admin/create_report')"><a routerLink="admin/create_report" routerLinkActive="active">{{'njamb.fe.navigation.adminCreateReport' | translate}}</a></li>
                     </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown" *ngIf="checkRoute('Dev')">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dev <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a routerLink="cache_test" routerLinkActive="active">{{'njamb.fe.navigation.cacheTest' | translate}}</a></li>
-                        <li><a routerLink="error_log" routerLinkActive="active">{{'njamb.fe.navigation.errorLog' | translate}}</a></li>
-                        <li><a routerLink="dev/exception" routerLinkActive="active">Validation Exception</a></li>
+                        <li *ngIf="checkRoute('cache_test')"><a routerLink="cache_test" routerLinkActive="active">{{'njamb.fe.navigation.cacheTest' | translate}}</a></li>
+                        <li *ngIf="checkRoute('error_log')"><a routerLink="error_log" routerLinkActive="active">{{'njamb.fe.navigation.errorLog' | translate}}</a></li>
+                        <li *ngIf="checkRoute('dev/exception')"><a routerLink="dev/exception" routerLinkActive="active">Validation Exception</a></li>
                     </ul>
                 </li>
                 <li>

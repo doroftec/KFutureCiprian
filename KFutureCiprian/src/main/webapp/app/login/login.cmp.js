@@ -50,6 +50,10 @@ var LoginCmp = (function () {
         var _this = this;
         this._dtService.setRestMessageContent('LoginCmp', 'getUserRest()');
         this._loginService.getUser().toPromise().then(function (result) {
+            for (var _i = 0, _a = result.userRoutes; _i < _a.length; _i++) {
+                var userRoute = _a[_i];
+                _this._loginService.arrOfRoutesPerUser.push(userRoute.url);
+            }
             if (result.username == 'micko') {
                 _this._navchangeService.navchange.emit(true);
             }

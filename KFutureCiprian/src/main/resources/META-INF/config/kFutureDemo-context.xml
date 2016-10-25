@@ -15,10 +15,6 @@
 	<context:component-scan base-package="it.kirey.kfuture.jasper" />
 	<context:component-scan base-package="it.kirey.kfuture.util" />
 	<!-- <context:component-scan base-package="it.kirey.kfuture.cache"/> -->
-	
-	
-	<bean id="modelMapper" class="org.modelmapper.ModelMapper"></bean>
-	<bean id="transformer" class="it.kirey.kfuture.util.ObjectTransformer"></bean>
 
    <!-- Property file used for value substitution -->
     <context:property-placeholder location="classpath:application.properties"/>

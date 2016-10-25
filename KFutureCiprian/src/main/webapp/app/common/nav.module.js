@@ -18,6 +18,7 @@ var dt_httpInterceptor_1 = require('../dtShared/dt.httpInterceptor');
 var alert_1 = require('ng2-bootstrap/components/alert');
 var utility_module_1 = require('../shared/modules/utility.module');
 var navchange_service_1 = require('./navchange.service');
+var login_service_1 = require('../login/login.service');
 var NavModule = (function () {
     function NavModule() {
     }
@@ -37,6 +38,7 @@ var NavModule = (function () {
             declarations: [nav_cmp_1.NavCmp],
             providers: [
                 navchange_service_1.NavChangeService,
+                login_service_1.LoginService,
                 {
                     provide: http_1.Http,
                     useFactory: function (backend, defaultOptions, cookieService) {

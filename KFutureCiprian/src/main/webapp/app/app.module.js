@@ -19,6 +19,7 @@ var utility_module_1 = require('./shared/modules/utility.module');
 var app_service_1 = require('./shared/services/app.service');
 var login_service_1 = require("./login/login.service");
 var loginGuard_1 = require("./login/loginGuard");
+var authGuard_1 = require('./login/authGuard');
 var login_module_1 = require('./login/login.module');
 var AppModule = (function () {
     function AppModule() {
@@ -40,6 +41,7 @@ var AppModule = (function () {
                 app_service_1.AppService,
                 login_service_1.LoginService,
                 loginGuard_1.LoginGuard,
+                authGuard_1.AuthGuard,
                 {
                     provide: common_1.LocationStrategy,
                     useClass: common_1.HashLocationStrategy

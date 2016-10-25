@@ -12,9 +12,10 @@ import { UtilityModule } from './shared/modules/utility.module';
 
 import { AppService } from './shared/services/app.service';
 
-import {LoginService} from "./login/login.service";
+import { LoginService } from "./login/login.service";
 
-import {LoginGuard} from "./login/loginGuard";
+import { LoginGuard } from "./login/loginGuard";
+import { AuthGuard } from './login/authGuard';
 
 import { LoginModule } from './login/login.module';
 
@@ -34,6 +35,7 @@ import { LoginModule } from './login/login.module';
         AppService,
         LoginService,
         LoginGuard,
+        AuthGuard,
         {
             provide: LocationStrategy,
             useClass: HashLocationStrategy

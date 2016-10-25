@@ -13,6 +13,8 @@ import { LoginCmp } from '../login/login.cmp';
 
 import { NavChangeService } from './navchange.service';
 
+import { LoginService } from '../login/login.service';
+
 @Component({
     moduleId: module.id,
     selector: 'navigation-menu',
@@ -33,7 +35,8 @@ export class NavCmp {
         private _dtService: DTService,
         private _router: Router,
         private _cookieService: CookieService,
-        private _navchangeService: NavChangeService) {
+        private _navchangeService: NavChangeService,
+        private _loginService: LoginService) {
         this._navchangeService.navchange.subscribe((status) => {this.isMickoUser= status; console.log('Status is:' + status)});
         }
 
@@ -44,6 +47,17 @@ export class NavCmp {
 
     changeLanguage(lang: string): void {
         this._appService.changeLang(lang);
+    }
+
+    checkRoute(urlRoute: string): boolean{
+        if(this._loginService.arrOfRoutesPerUser != null){
+            for(let routeUser of this._loginService.arrOfRoutesPerUser){
+                if(urlRoute == routeUser){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*--------- NG On Init ---------*/f

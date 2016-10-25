@@ -9,6 +9,7 @@ import { UserLogin } from '../login/userLogin.model';
 @Injectable() 
 export class LoginService{
     private _baseUrl: string = 'rest/';
+    arrOfRoutesPerUser: string[] = [];
 
     constructor(private _http: Http){}
     

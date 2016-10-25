@@ -15,6 +15,7 @@ var LoginService = (function () {
     function LoginService(_http) {
         this._http = _http;
         this._baseUrl = 'rest/';
+        this.arrOfRoutesPerUser = [];
     }
     /**
      * REST - Login authentication with token returned as data

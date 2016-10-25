@@ -12,6 +12,7 @@ import { DTViewCmpIf } from '../dtShared/dt.viewcmpIF';
 
 import { AppService } from '../shared/services/app.service';
 import { NavChangeService } from '../common/navchange.service';
+import { ROUTING} from '../app.routes';
 
 declare var $: JQueryStatic;
 
@@ -50,7 +51,6 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
      * @author DynTech
      */
     login(): void {
-
         this.bLoginState = false;
         this.bLoginSuccessful = false;
         this.bLoadingState = true;
@@ -69,6 +69,10 @@ export class LoginCmp implements OnInit, DTViewCmpIf {
     getUserRest(): any {
         this._dtService.setRestMessageContent('LoginCmp', 'getUserRest()');
         this._loginService.getUser().toPromise().then(result => {
+
+            for(let userRoute of result.userRoutes ){
+                this._loginService.arrOfRoutesPerUser.push(userRoute.url);
+            }
 
             if(result.username == 'micko'){
                 this._navchangeService.navchange.emit(true);

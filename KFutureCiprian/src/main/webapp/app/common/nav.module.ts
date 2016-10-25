@@ -14,6 +14,7 @@ import { AlertModule } from 'ng2-bootstrap/components/alert';
 import { UtilityModule } from '../shared/modules/utility.module';
 
 import { NavChangeService } from './navchange.service';
+import { LoginService } from '../login/login.service';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { NavChangeService } from './navchange.service';
     declarations: [NavCmp],
     providers: [
         NavChangeService,
+        LoginService,
         {
             provide: Http,
             useFactory: (

@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.kirey.kfuture.dao.impl.AmUrlRoutesHome;
 import it.kirey.kfuture.entity.AmCompanies;
+import it.kirey.kfuture.entity.AmUrlRoutes;
 import it.kirey.kfuture.entity.AmUserAccounts;
 import it.kirey.kfuture.security.SecurityCache;
 import it.kirey.kfuture.security.TokenUtils;
@@ -34,6 +36,7 @@ import it.kirey.kfuture.security.transfer.TokenTransfer;
 import it.kirey.kfuture.security.transfer.UserLogin;
 import it.kirey.kfuture.security.transfer.UserTransfer;
 import it.kirey.kfuture.service.IUserService;
+import it.kirey.kfuture.util.Utilities;
 
 @RestController
 @RequestMapping("/rest")
@@ -45,6 +48,9 @@ public class UserProfileController {
 
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private AmUrlRoutesHome amUrlRoutesHome;
 
 	final static Logger logger = Logger.getLogger(UserProfileController.class);
 
@@ -61,9 +67,9 @@ public class UserProfileController {
 		for (Map.Entry<String, String> entry : companyDetails.entrySet()) {
 			cssStyles.add(cssFolder + entry.getKey() + cssExtension);
 		}
-		
-		UserTransfer userTransfer = new UserTransfer(userDetails.getUsername(), this.createRoleMap(userDetails),
-				companyDetails,cssStyles, userAccount.getDefaultLanguage());
+		List<AmUrlRoutes> userRoutes = amUrlRoutesHome.findRoutesByUser(Utilities.getUserFromContext());
+		  UserTransfer userTransfer = new UserTransfer(userDetails.getUsername(), null,
+			        companyDetails,cssStyles, userAccount.getDefaultLanguage(), userRoutes);
 		return new ResponseEntity<UserTransfer> (userTransfer, HttpStatus.OK);
 	}
 
