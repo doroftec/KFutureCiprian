@@ -19,10 +19,7 @@ export class TestPageCmp implements OnInit {
     productWithDetails: Product;
     message: string;
     hiddenFlag: boolean;
-
-    many: Array<string> = ['The', 'possibilities', 'are', 'endless!'];
-    many2: Array<string> = ['Explore', 'them'];
-
+    
     constructor(private _testPageServices: TestPageService) {}
 
     // On init
@@ -30,7 +27,7 @@ export class TestPageCmp implements OnInit {
         this.hiddenFlag = true;
         this.getProducts();
         this.message = "Test";
-        this.product = new Product(null,null,null,null);
+        this.product = new Product(null,null,null,null,null);
     }
 
     getProducts(){
@@ -40,7 +37,7 @@ export class TestPageCmp implements OnInit {
     }
 
     onSubmit(product: Product){
-        let newProduct = new Product(product.productId,product.productName,product.price,product.releaseDate);
+        let newProduct = new Product(product.productId,product.productName,product.price,product.releaseDate,null);
         let productsArrLength = this.products.length;
         this.products[productsArrLength] = newProduct;
     }

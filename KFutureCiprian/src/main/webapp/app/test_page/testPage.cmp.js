@@ -14,22 +14,20 @@ var products_model_1 = require('./products.model');
 var TestPageCmp = (function () {
     function TestPageCmp(_testPageServices) {
         this._testPageServices = _testPageServices;
-        this.many = ['The', 'possibilities', 'are', 'endless!'];
-        this.many2 = ['Explore', 'them'];
     }
     // On init
     TestPageCmp.prototype.ngOnInit = function () {
         this.hiddenFlag = true;
         this.getProducts();
         this.message = "Test";
-        this.product = new products_model_1.Product(null, null, null, null);
+        this.product = new products_model_1.Product(null, null, null, null, null);
     };
     TestPageCmp.prototype.getProducts = function () {
         var _this = this;
         this._testPageServices.getProducts().subscribe(function (products) { return _this.products = products; }, function (error) { return _this.errorMessage = error; });
     };
     TestPageCmp.prototype.onSubmit = function (product) {
-        var newProduct = new products_model_1.Product(product.productId, product.productName, product.price, product.releaseDate);
+        var newProduct = new products_model_1.Product(product.productId, product.productName, product.price, product.releaseDate, null);
         var productsArrLength = this.products.length;
         this.products[productsArrLength] = newProduct;
     };

@@ -13,7 +13,7 @@ export class TestPageService {
     private productsUrl = './app/test_page/products.json';
 
     getProducts(): Observable<Product[]>{
-        return this.http.request(this.productsUrl)
+      return this.http.request(this.productsUrl)
                     .map(res => res.json())
                     .catch(this.handleError);
     }

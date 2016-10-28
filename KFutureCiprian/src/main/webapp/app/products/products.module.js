@@ -12,11 +12,13 @@ var core_1 = require('@angular/core');
 var primeng_1 = require('primeng/primeng');
 var pagination_1 = require('ng2-bootstrap/components/pagination');
 var products_cmp_1 = require('./products.cmp');
+var testPageServices_1 = require('../test_page/testPageServices');
 var products_service_1 = require('../products/products.service');
 var dt_service_1 = require('../dtShared/dt.service');
 var dt_table_1 = require('../dtShared/table/dt.table');
 var products_routes_1 = require('./products.routes');
 var utility_module_1 = require('../shared/modules/utility.module');
+var primeng_2 = require('primeng/primeng');
 var ProductsModule = (function () {
     function ProductsModule() {
     }
@@ -26,13 +28,15 @@ var ProductsModule = (function () {
                 primeng_1.DataTableModule,
                 pagination_1.PaginationModule,
                 utility_module_1.UtilityModule,
-                products_routes_1.ROUTING
+                products_routes_1.ROUTING,
+                primeng_2.DropdownModule
             ],
             declarations: [products_cmp_1.ProductsCmp],
             providers: [
                 products_service_1.ProductsService,
                 dt_service_1.DTService,
-                dt_table_1.DTTable
+                dt_table_1.DTTable,
+                testPageServices_1.TestPageService
             ],
         }), 
         __metadata('design:paramtypes', [])

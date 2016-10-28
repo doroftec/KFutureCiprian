@@ -1,118 +1,111 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { ProductsService } from '../products/products.service';
-import { Product } from '../products/product.model';
+import { TestPageService } from '../test_page/testPageServices';
+import { Product } from '../test_page/products.model';
 
-import { DTViewCmpIf } from '../dtShared/dt.viewCmpIF';
-import { DTService } from '../dtShared/dt.service';
-import { DTTableViewIF } from '../dtShared/table/dt.TableViewIF';
-import { TableHead } from '../dtShared/table/dt.tableHead.model';
-import { Pagination } from '../dtShared/table/dt.pagination.model';
-import { Sort } from '../dtShared/table/dt.sort.model';
-import { Filter } from '../dtShared/table/dt.filter.model';
-import { DTTable } from '../dtShared/table/dt.table';
+import { PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
+
+import {SelectItem} from 'primeng/primeng';
+import {DropdownModule} from 'primeng/primeng';
+import {InputTextModule} from 'primeng/primeng';
+import { SearchProductsFilterPipe } from '../shared/pipes/searchProducts.pipe';
 
 
 @Component({
     templateUrl: 'app/products/products.cmp.html',
 })
-export class ProductsCmp implements OnInit, DTViewCmpIf, DTTableViewIF {
-    products: Product[];
-
-    __pageSize: number;
-    __pageSizeModel: number;
-    __currentPage: number;
-    __totalItems: number
-    __pageCount: number;
-
-    pageSizeChangeStatus: boolean;
-
-    filters: any;
-    sort: Sort;
-    pageSizes: number[];
-
-    show: boolean = true;
-
+export class ProductsCmp implements OnInit {
     constructor(private _productsService: ProductsService,
-        private _dtService: DTService,
-        private _dtTable: DTTable,
-        private _changeDetectionRef: ChangeDetectorRef) { }
+                private _changeDetectionRef: ChangeDetectorRef, 
+                private _dumyProductsService: TestPageService) { }
 
-    /* === Ajax calls === */
+    productName: string = '';
+    
+    products: Product[];
+    productsPerPage: Product[] = [];
 
-    private loadProductsRest(currentPage: number, pageSize: number): void {
-        this._dtService.setRestMessageContent('ProductsCmp', 'loadProductsRest()');
-        this._productsService.getProducts(this._dtTable.getPaginationParams(currentPage, pageSize, this.filters, this.sort))
-            .toPromise().then(products => {
-                this.__totalItems = products.totalRows;
+    public itemsPerPage: number = 3;
+    public totalItems:number = 0;
+    public currentPage: number = 1;
+ 
+    maxSizeBtnPages: number = 5;
 
-                this.products = products.data;
-                this.__currentPage = currentPage;
-                this.__pageSize = pageSize;
-
-                setTimeout(() => {
-                    this.pageSizeChangeStatus = false;
-                });
-            }, error => {
-                this.pageSizeChangeStatus = true;
-                this.__currentPage = 1;
-
-                setTimeout(() => {
-                    this.pageSizeChangeStatus = false;
-                });
-            });
-    }
-
-    /* === Pagination methods === */
-    public __onPageChanged(event: any): void {
-
-        if (!this.pageSizeChangeStatus) {
-            this.__currentPage = event.page;
-            this.loadProductsRest(this.__currentPage, this.__pageSize);
-        }
-    };
-
-    public __onPageSizeChanged(): void {
-        this.pageSizeChangeStatus = true;
-
-        this._changeDetectionRef.detectChanges();
-
-        this.loadProductsRest(1, this.__pageSizeModel);
-    }
-
-    public filterByName(): void {
-        this.pageSizeChangeStatus = true;
-
-        this._changeDetectionRef.detectChanges();
-
-        this.loadProductsRest(1, this.__pageSizeModel);
-    }
-
-
+    selectNrsProductsPerPage: SelectItem[];
+    selectNrProductsPerPage: string;
 
     // ---------------------- ON INIT
     ngOnInit() {
+        this._dumyProductsService.getProducts().subscribe(products => {
+            this.products = products;
+            this.setInitPageNew(1);
+            this.totalItems = products.length;
+        });
 
-        this.__pageSizeModel = 10;
-        this.__pageSize = 10;
-        this.__currentPage = 1;
-        this.__totalItems = 0;
+        this.selectNrProductsPerPage += this.itemsPerPage;
 
-        this.filters = {
-            name: ''
-        }
-        this.sort = new Sort('name', 'asc');
-        this.pageSizes = [5, 6, 7, 8, 9, 10, 11];
-
-
-        this.loadProductsRest(this.__currentPage, this.__pageSize);
-
-        // Construct methods
-        this.__setInitPageTitle('Products');
+        this.selectNrsProductsPerPage = [];
+        this.selectNrsProductsPerPage.push({label:'3', value:3});
+        this.selectNrsProductsPerPage.push({label:'5', value:5});
+        this.selectNrsProductsPerPage.push({label:'8', value:8});
+        this.selectNrsProductsPerPage.push({label:'10', value:10});
     }
 
-    // Interface imported
-    __setInitPageTitle(title: string) {
-        this._dtService.setPageTitle(title);
-    }  
+    private setInitPageNew(nrPage: number){
+        this.getPorductsPerNumberPage(1);
+    }
+
+    private getPorductsPerNumberPage(nrPage: number){
+        var endIndex = (nrPage * this.itemsPerPage)-1;
+        var startIndex = endIndex - (this.itemsPerPage - 1);
+
+        this.getLimitProducts(startIndex, endIndex, nrPage);
+    }
+
+    private getLimitProducts(startIndex: number, endIndex: number, lastPage: number){
+        if(this.productsPerPage.length != 0){
+            this.productsPerPage = [];
+        }
+        //pagesTotal repesent total of pages and also the last page number from products table
+        var pagesTotal = Math.ceil(this.totalItems/this.itemsPerPage)
+        if(lastPage == pagesTotal){
+            var nrOfProdsLastPage = this.totalItems % this.itemsPerPage;
+            var startIndexLastPage = (pagesTotal - 1) * this.itemsPerPage;
+
+            if(nrOfProdsLastPage == 0){
+                nrOfProdsLastPage =+ this.selectNrProductsPerPage;
+            }
+            for(var i=0; i < nrOfProdsLastPage; i++,startIndexLastPage++){
+                this.productsPerPage[i] = this.products[startIndexLastPage];
+            }
+        }else{
+            for(var i = 0;startIndex <= endIndex; i++, startIndex++){
+                this.productsPerPage[i] = this.products[startIndex];
+            }
+        }
+    }
+
+    public pageChanged(event:any):void {
+        this.currentPage = event.page;
+        this.getPorductsPerNumberPage(event.page);
+    };
+
+    selectedNrProdsToShow(event :any){
+        this.itemsPerPage = event.value;
+        this.getPorductsPerNumberPage(this.currentPage);
+    }
+
+    searchProducts(){
+        var productsSearched: Product[] = [];
+        if(this.productName){
+            for(let product of this.productsPerPage){
+            if( product.productName.toLowerCase().includes(this.productName.toLowerCase()) ){
+                productsSearched.push(product);
+            }
+        }
+        this.productsPerPage = productsSearched;
+        }else{
+            this.getPorductsPerNumberPage(this.currentPage);
+        }
+    }
 }
