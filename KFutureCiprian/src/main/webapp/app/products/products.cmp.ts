@@ -9,7 +9,6 @@ import { PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
 import {SelectItem} from 'primeng/primeng';
 import {DropdownModule} from 'primeng/primeng';
 import {InputTextModule} from 'primeng/primeng';
-import { SearchProductsFilterPipe } from '../shared/pipes/searchProducts.pipe';
 
 
 @Component({
